@@ -1,34 +1,32 @@
+from django.db import IntegrityError
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from django.http import JsonResponse
 from django.contrib.auth import authenticate, login
 import json
+from .models import User
 
 
 @csrf_exempt
+@csrf_exempt
 def user_signup(request):
-    timezone.deactivate()
     if request.method == 'POST':
+        data = json.loads(request.body)
+        name = data.get('name')
+        email = data.get('email')
+        password = data.get('password')
+        print(name)
         try:
-            data = json.loads(request.body)
-            print(data)
-            # 데이터 유효성 검사
-            name = data.get('name')
-            email = data.get('email')
-            password = data.get('password')
-
-            if not (name and email and password):
-                return JsonResponse({'error': 'Name, email, and password are required'}, status=400)
-
-            user = User.objects.create_user(username=name, email=email, password=password)
-            return JsonResponse({'success': 'User created successfully'})
-        except json.JSONDecodeError:
-            return JsonResponse({'error': 'Invalid JSON format in request body'}, status=400)
+            user = User(
+                name=name,
+                email=email,
+                password=password
+            )
+            user.save()
+            return JsonResponse({'message': 'User created successfully'})
         except Exception as e:
-            return JsonResponse({'error': str(e)}, status=400)
-
-    return JsonResponse({'error': 'Only POST requests are allowed'}, status=405)
+            return JsonResponse({'error': str(e)}, status=500)
 
 
 @csrf_exempt

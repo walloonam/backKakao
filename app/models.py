@@ -4,7 +4,7 @@ class ShowModel(models.Model):
     CODENAME = models.CharField(max_length=100)  # 분류
     GUNAME = models.CharField(max_length=100)    # 자치구
     TITLE = models.CharField(max_length=255)     # 공연/행사명
-    DATE = models.CharField(max_length=100)                # 날짜/시간
+    DATE = models.CharField(max_length=100)      # 날짜/시간
     PLACE = models.CharField(max_length=255)     # 장소
     ORG_NAME = models.CharField(max_length=100)  # 기관명
     USE_TRGT = models.CharField(max_length=255)  # 이용대상
@@ -21,7 +21,7 @@ class ShowModel(models.Model):
     THEMECODE = models.CharField(max_length=50)  # 테마분류
     LOT = models.FloatField()                    # 위도(X좌표)
     LAT = models.FloatField()                    # 경도(Y좌표)
-    IS_FREE = models.CharField()              # 유무료
+    IS_FREE = models.CharField(max_length=200)              # 유무료
     HMPG_ADDR = models.URLField(max_length=200) # 문화포털상세URL
 
     def __str__(self):
