@@ -12,4 +12,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # 스크립트 실행
-CMD ["sh", "start.sh"]
+CMD python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000
+

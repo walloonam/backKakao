@@ -10,4 +10,4 @@ python manage.py migrate
 
 # 세 번째 명령어
 echo "Starting Django server..."
-python manage.py runserver 0.0.0.0:8000
+python manage.py runserver
