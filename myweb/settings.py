@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -76,17 +76,26 @@ WSGI_APPLICATION = 'myweb.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 # settings.py
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'test',  # 데이터베이스 이름
+#         'USER': 'root',  # 사용자 이름
+#         'PASSWORD': 'test123',  # 비밀번호
+#         'HOST': '211.183.3.100',  # 호스트
+#         'PORT': '30001',  # 포트
+#     }
+# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'test',  # 데이터베이스 이름
-        'USER': 'root',  # 사용자 이름
-        'PASSWORD': 'test123',  # 비밀번호
-        'HOST': '211.183.3.100',  # 호스트
-        'PORT': '30001',  # 포트
+        'NAME': os.getenv('DB_NAME', 'default_database_name'),
+        'USER': os.getenv('DB_USER', 'default_database_user'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'default_database_password'),
+        'HOST': os.getenv('DB_HOST', 'mysql-service'),  # Kubernetes MySQL 서비스 이름 사용
+        'PORT': '3306',  # MySQL 기본 포트
     }
 }
-
 
 
 # Password validation
