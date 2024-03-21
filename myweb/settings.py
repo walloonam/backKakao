@@ -89,11 +89,11 @@ WSGI_APPLICATION = 'myweb.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('DB_NAME', 'default_database_name'),
-        'USER': os.getenv('DB_USER', 'default_database_user'),
-        'PASSWORD': os.getenv('DB_PASSWORD', 'default_database_password'),
-        'HOST': os.getenv('DB_HOST', 'mysql'),  # Kubernetes MySQL 서비스 이름 사용
-        'PORT': '3306',  # MySQL 기본 포트
+        'NAME': os.getenv('DB_NAME', 'test'),
+        'USER': os.getenv('DB_USER', 'root'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'test123'),
+        'HOST': os.getenv('DB_HOST', '211.183.3.100'),  # Kubernetes MySQL 서비스 이름 사용
+        'PORT': '30001',  # MySQL 기본 포트
     }
 }
 
