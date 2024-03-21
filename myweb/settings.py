@@ -92,7 +92,7 @@ DATABASES = {
         'NAME': os.getenv('DB_NAME', 'default_database_name'),
         'USER': os.getenv('DB_USER', 'default_database_user'),
         'PASSWORD': os.getenv('DB_PASSWORD', 'default_database_password'),
-        'HOST': os.getenv('DB_HOST', 'mysql-service'),  # Kubernetes MySQL 서비스 이름 사용
+        'HOST': os.getenv('DB_HOST', 'mysql'),  # Kubernetes MySQL 서비스 이름 사용
         'PORT': '3306',  # MySQL 기본 포트
     }
 }
