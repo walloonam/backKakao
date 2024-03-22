@@ -1,5 +1,5 @@
 db.sqlite3
-.myenv/
+
 
 */migrations/*.py
 */migrations/*.pyc
