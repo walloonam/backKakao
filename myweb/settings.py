@@ -91,7 +91,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('DB_NAME', 'test'),
+        'NAME': os.getenv('DB_NAME', 'anemone'),
         'USER': os.getenv('DB_USER', 'root'),
         'PASSWORD': os.getenv('DB_PASSWORD', 'test123'),
         'HOST': os.getenv('DB_HOST', '211.183.3.100'),  # Kubernetes MySQL 서비스 이름 사용

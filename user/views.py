@@ -17,11 +17,16 @@ def user_signup(request):
         email = data.get('email')
         password = data.get('password')
         print(name)
+        if data.get('admin'):
+            admin=True
+        else:
+            admin=False
         try:
             user = User(
                 name=name,
                 email=email,
-                password=password
+                password=password,
+                admin=admin
             )
             user.save()
             return JsonResponse({'message': 'User created successfully'})
