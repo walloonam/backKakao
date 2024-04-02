@@ -16,6 +16,7 @@ def user_signup(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
+            print(data)
             name = data.get('name')
             email = data.get('email')
             password = data.get('password')
@@ -26,7 +27,6 @@ def user_signup(request):
                 return JsonResponse({'error': 'Email field is required'}, status=400)
             if not password:
                 return JsonResponse({'error': 'Password field is required'}, status=400)
-
             if data.get('admin'):
                 admin = True
             else:
@@ -38,7 +38,10 @@ def user_signup(request):
                 password=password,
                 admin=admin
             )
+            print("hi")
+
             user.save()
+            print("hi")
             return JsonResponse({'message': 'User created successfully'})
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Invalid JSON format in request body'}, status=400)
@@ -60,11 +63,10 @@ def user_login(request):
 
             if not (email and password):
                 return JsonResponse({'error': 'Email and password are required'}, status=400)
-
-            user = authenticate(request, email=email, password=password)
+            
+            user = User.objects.get(email=email)
             if user is not None:
-                login(request, user)
-                return JsonResponse({'success': 'User logged in successfully'})
+                return JsonResponse({'success': 'User logged in successfully'}, status=200)
             else:
                 return JsonResponse({'error': 'Invalid email or password'}, status=401)
         except json.JSONDecodeError:
