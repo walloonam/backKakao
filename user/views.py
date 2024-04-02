@@ -12,19 +12,26 @@ from .models import User, Reserve, Like
 
 
 @csrf_exempt
-@csrf_exempt
 def user_signup(request):
     if request.method == 'POST':
-        data = json.loads(request.body)
-        name = data.get('name')
-        email = data.get('email')
-        password = data.get('password')
-        print(name)
-        if data.get('admin'):
-            admin=True
-        else:
-            admin=False
         try:
+            data = json.loads(request.body)
+            name = data.get('name')
+            email = data.get('email')
+            password = data.get('password')
+
+            if not name:
+                return JsonResponse({'error': 'Name field is required'}, status=400)
+            if not email:
+                return JsonResponse({'error': 'Email field is required'}, status=400)
+            if not password:
+                return JsonResponse({'error': 'Password field is required'}, status=400)
+
+            if data.get('admin'):
+                admin = True
+            else:
+                admin = False
+
             user = User(
                 name=name,
                 email=email,
@@ -33,36 +40,40 @@ def user_signup(request):
             )
             user.save()
             return JsonResponse({'message': 'User created successfully'})
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON format in request body'}, status=400)
+        except IntegrityError:
+            return JsonResponse({'error': 'User with this email already exists'}, status=400)
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
+    else:
+        return JsonResponse({'error': 'Only POST requests are allowed'}, status=405)
 
 
 @csrf_exempt
 def user_login(request):
-    timezone.deactivate()
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
-            print(data)
-            # 데이터 유효성 검사
             email = data.get('email')
             password = data.get('password')
 
             if not (email and password):
-                return JsonResponse({'error': 'Name and password are required'}, status=400)
+                return JsonResponse({'error': 'Email and password are required'}, status=400)
 
             user = authenticate(request, email=email, password=password)
             if user is not None:
                 login(request, user)
                 return JsonResponse({'success': 'User logged in successfully'})
             else:
-                return JsonResponse({'error': 'Invalid username or password'}, status=401)
+                return JsonResponse({'error': 'Invalid email or password'}, status=401)
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Invalid JSON format in request body'}, status=400)
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=400)
 
     return JsonResponse({'error': 'Only POST requests are allowed'}, status=405)
+
 
 @require_GET
 def user_info(request, id):
