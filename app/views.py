@@ -1,4 +1,7 @@
+import json
 from django.http import JsonResponse
+
+from user.models import Like, Reserve
 from .models import ShowModel
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -41,3 +44,27 @@ def app_show(request):
         
 
 
+def click_like(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            title = data.get('title')
+            id = data.get('id')
+            like = Like(concert=title, id=id)
+            like.save()
+            return JsonResponse({"message": "success"})
+        except Exception as e:
+            return JsonResponse({"message": "fail", "error": str(e)})
+    
+
+def click_reserve(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            title = data.get('title')
+            id = data.get('id')
+            reserve = Reserve(concert=title, id=id)
+            reserve.save()
+            return JsonResponse({"message": "success"})
+        except Exception as e:
+            return JsonResponse({"message": "fail", "error": str(e)})
