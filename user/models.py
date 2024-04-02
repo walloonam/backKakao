@@ -7,6 +7,7 @@ class User(models.Model):
     name = models.CharField(max_length=10,null=False, default='')
     email = models.EmailField(max_length=30)
     password = models.CharField(max_length=30)
+    admin = models.BooleanField(default=False)
 
     class Meta:
         app_label = 'user'
